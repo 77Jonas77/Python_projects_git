@@ -1,0 +1,103 @@
+#zmienna jako etykieta wartosci, a nie jako pojemnik na wartosc
+#why? -> zmienna wskazuje na  obiekt w pamieci. Jest odniesieniem -> nie przechowuje tej wartosci 
+messesage = "Witaj, swiecie Pythona"
+print(messesage)
+
+messesage = "Witaj, swiecie Pythona2"
+print(messesage)
+
+#=================DZIALANIE NA CIAGACH ZNAKOW=================
+#metoda title() -> zamiana kazdej pierwszej litery slowa na wielka
+name = "jan kowalski"
+print(name.title())
+
+#zamiana name na duze / male litery
+print(name.upper())
+print(name.lower())
+
+#wstawianie wartosci zmiennej do ciagu tekstowego
+first_name = "jan"
+last_name = "kowal"
+
+full_name = "{first_name} {last_name}" #wyswietli to co jest doslownie w cudzyslowiu
+full_name = f"{first_name} {last_name}" #python f-string -> format(owanie) -> wysw. wart odpow nazwom zmiennym w {} 
+
+#zauwazmy, ze mozna uzywac metod na tych zmiennych w {} dla f-string
+#dla javy mamy sout(zmienna.metoda() + " itd. ") 
+print(f"Siemanko, {full_name.title()} {full_name.lower()}!")
+
+print(full_name)
+
+#biale znaki -> \n \t ' ' | rstrip() / lstrip() / strip()  -> usuwa biale znaki po prawej / lewej / obu str. ciagu tekstowego
+#pernamentne pozbycie sie
+ex = "pyt "
+ex = ex.rstrip()
+print(ex)
+
+#usuwanie prefiksu
+prefix_git_link = "https://github.com/77Jonas77/PPY_python/tree/main"
+no_prefix_git_link = prefix_git_link.removeprefix('https://')
+print(no_prefix_git_link)
+print(prefix_git_link)
+
+#pamietac o prawidlowej skladni 
+#ciag znakow dla pythona jest miedzy cudzyslowniami ' ' / " ", w momencie zastosowania tych samych, np. dla tytulu ksiazki w Python nie rozpozna, ktory prawidlowy
+#Poprawnie "siema ksiazka 'Atomic Habits' jest zajefajna "
+print("siema ksiazka 'Atomic Habits' jest zajefajna ")
+
+#2.6
+famous_person = "Joe Dizpenza"
+message = '"Wspomnienia pozbawione ładunku emocji to mądrość"'
+print(f"{famous_person} powiedzial kiedys: {message}")
+
+#2.7
+imie ="\n Joe"
+nazwisko ="Dispenza\t"
+
+famous_person2 = f"{imie.strip()} {nazwisko.strip()}"
+print(famous_person2)
+
+#2.8
+filename="python_notes.txt"
+print(filename.removesuffix('.txt'))
+
+#Liczby 
+# operatory 
+# potegowanie jako 3 ** 2 (=9)
+# dzielenie calkowite 3 // 2 (=1)
+# dzielenie 3 / 2 (=1.5)
+
+# laczenie typow w dzialaniach (int + float = float)
+# znaki podkreslenia w liczbach 10_000_000 -> igonoruje podkreslenia
+
+#int - calkowite
+#float - zmiennoprzecikowe
+
+#  Zainicjowanie zmiennych
+x, y, z = 0, 0, 2
+
+# Stala -> umownie wielkie litery i niezmienianie wartosci, ale nie ma przeznaczonego typu dla stalych
+NAJLEPSZA_MAMA = "Moja"
+
+#Zen of Python
+
+#Beautiful is better than ugly. -> pisac bardziej elegancko /ladnie /prosciej
+#Explicit is better than implicit. -> wyrazone wprost a nie domniemywanie
+#Simple is better than complex. -> jesli oba rozw dzialaja, to lepiej uzyc prostszego (bo latwiej nadbudowac)
+#Complex is better than complicated. -> najprostsze rozwiazanie, ktore dziala
+#Flat is better than nested. -> struktura plaska lepsza niz zagniezdzona (nie tworzyc niepotrz osobnych modulow)
+#Sparse is better than dense. -> rzadki lepszy niz gesty -> zamiast gestosci -> np petla for
+#Readability counts. -> komentarze / opisowe nazwy zmiennych / dokumentacje / wskazowek dla metod itd
+#Special cases aren't special enough to break the rules.-> stosowac sie do zasad jezyka i zalec/najlepszych praktyk
+#Although practicality beats purity. -> lepiej klepac kod niz do konca zycia nie zaczac nawet klepac
+#Errors should never pass silently. -> try except / obsluga bledow
+#Unless explicitly silenced. -> laczenie niedsand ale jawnie
+#In the face of ambiguity, refuse the temptation to guess. -> nie zgaduj, tylko uruchom kod i dzialaj
+#There should be one-- and preferably only one --obvious way to do it. -> jasny dla innych programistow
+#Although that way may not be obvious at first unless you're Dutch.
+#Now is better than never. -> klep kod
+#Although never is often better than *right* now.
+#If the implementation is hard to explain, it's a bad idea.
+#If the implementation is easy to explain, it may be a good idea.
+#Namespaces are one honking great idea -- let's do more of those!
+
