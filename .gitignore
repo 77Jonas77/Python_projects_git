@@ -5,6 +5,10 @@
 #Mac ds
 .DS_Store
 
+#pliki tesktowe
+instr_dla_progr/zapis.txt
+/jakis.txt
+
 # User-specific files
 *.rsuser
 *.suo
