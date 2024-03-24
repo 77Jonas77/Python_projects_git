@@ -1,4 +1,6 @@
-BOARD = [
+"""Gra w kolko i krzyzyk"""
+
+board = [
     ' ', ' ', ' ',
     ' ', ' ', ' ',
     ' ', ' ', ' '
@@ -12,18 +14,19 @@ P2_SIGN = ""
 def print_board():
     """ Wyswietla aktualny stan planszy """
     print(f"== RUNDA {ROUND} ==", '\n' * 2)
-    print(f" {BOARD[0]} | {BOARD[1]} | {BOARD[2]} ")
-    print(f"-----------")
-    print(f" {BOARD[3]} | {BOARD[4]} | {BOARD[5]} ")
-    print(f"-----------")
-    print(f" {BOARD[6]} | {BOARD[7]} | {BOARD[8]} ")
+    print(f" {board[0]} | {board[1]} | {board[2]} ")
+    print("-----------")
+    print(f" {board[3]} | {board[4]} | {board[5]} ")
+    print("-----------")
+    print(f" {board[6]} | {board[7]} | {board[8]} ")
     print('\n' * 2)
 
 
 def reset_game():
+    """ Resetuje statystyki gry """
     print_board()
-    global BOARD, ROUND, P1_SIGN, P2_SIGN
-    BOARD = [
+    global board, ROUND, P1_SIGN, P2_SIGN
+    board = [
         ' ', ' ', ' ',
         ' ', ' ', ' ',
         ' ', ' ', ' '
@@ -71,7 +74,7 @@ def input_position():
     position = int(position)
     # wprowadzenie pozycji dla danego gracza i spr poprawnosci
     while ((position < 1 or position > 9)
-           or (BOARD[position - 1] == 'X' or BOARD[position - 1] == 'O')):
+           or (board[position - 1] == 'X' or board[position - 1] == 'O')):
 
         position = int(input(
             f'Type position PLAYER {1 if ROUND % 2 == 1 else 2} (1-9): ')
@@ -79,7 +82,7 @@ def input_position():
 
         if position < 1 or position > 9:
             print("Position out of range!")
-        if BOARD[position - 1] != ' ':
+        if board[position - 1] != ' ':
             print("Already MARKED!")
     print('\n'*2)
     return position
@@ -92,7 +95,7 @@ def check_play_again():
     while choice.lower() != 'yes' and choice.lower() != 'no':  # sprawdzenie popr input
         choice = input("Do you want to play again? (yes/no) : ")
 
-        if choice != 'yes' and choice != 'no':
+        if choice in ('yes', 'no'):
             print("Invalid answer!\n")
 
     return False if choice.lower() == 'no' else True
@@ -102,31 +105,31 @@ def check_win():
     """ Sprawdza w każdej rundzie, czy gra została wygrana """
     # Sprawdzenie poziomych linii
     for i in range(0, 9, 3):
-        if BOARD[i] == BOARD[i + 1] == BOARD[i + 2] != ' ':
+        if board[i] == board[i + 1] == board[i + 2] != ' ':
             print(
-                f'Player {1 if BOARD[i] == P1_SIGN else 2} wins!')
+                f'Player {1 if board[i] == P1_SIGN else 2} wins!')
             reset_game()
             return True
 
     # Sprawdzenie pionowych linii
     for i in range(3):
-        if BOARD[i] == BOARD[i + 3] == BOARD[i + 6] != ' ':
-            print(f'Player {1 if BOARD[i] == P1_SIGN else 2} wins!')
+        if board[i] == board[i + 3] == board[i + 6] != ' ':
+            print(f'Player {1 if board[i] == P1_SIGN else 2} wins!')
             reset_game()
             return True
 
     # Sprawdzenie przekątnych
-    if BOARD[0] == BOARD[4] == BOARD[8] != ' ':
-        print(f'Player {1 if BOARD[0] == P1_SIGN else 2} wins!')
+    if board[0] == board[4] == board[8] != ' ':
+        print(f'Player {1 if board[0] == P1_SIGN else 2} wins!')
         reset_game()
         return True
-    if BOARD[2] == BOARD[4] == BOARD[6] != ' ':
-        print(f'Player {1 if BOARD[2] == P1_SIGN else 2} wins!')
+    if board[2] == board[4] == board[6] != ' ':
+        print(f'Player {1 if board[2] == P1_SIGN else 2} wins!')
         reset_game()
         return True
 
     # Sprawdzenie remisu
-    if ' ' not in BOARD:
+    if ' ' not in board:
         print("It's a tie!")
         reset_game()
         return True
@@ -136,14 +139,14 @@ def check_win():
 
 def make_move(pos):
     """ Odpowiada za wykonanie ruchu w tablicy """
-    global BOARD
     if ROUND % 2 == 1:
-        BOARD[pos - 1] = P1_SIGN
+        board[pos - 1] = P1_SIGN
     else:
-        BOARD[pos - 1] = P2_SIGN
+        board[pos - 1] = P2_SIGN
 
 
 def first_round():
+    """Przebieg 1. rundy"""
     global ROUND
     hello_msg()
 
@@ -167,8 +170,6 @@ def one_plus_round():
 
 def play_game():
     """Logika gry"""
-
-    global ROUND
 
     # first game
     first_round()
