@@ -70,11 +70,11 @@ logo = r'''
                    |___/    '''
 
 
-def display_word(guessed_letters, word=""):
+def display_word(g_letters, word=""):
     """Wyswietlanie slowa do zgadniecia"""
     # mozna bylo za pomoca jednej listy z _ lub porownywania liter indx
     for letter in word:
-        if letter in guessed_letters:
+        if letter in g_letters:
             print(letter, end='')
         else:
             print('_', end='')

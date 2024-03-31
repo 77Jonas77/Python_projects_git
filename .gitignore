@@ -4,7 +4,7 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 #Mac ds
 .DS_Store
-
+.idea/
 #pliki tesktowe
 instr_dla_progr/zapis.txt
 /jakis.txt
