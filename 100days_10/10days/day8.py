@@ -23,7 +23,7 @@ a8"     "" 88 88P'    "8a 88P'    "8a a8P_____88 88P'   "Y8
 
 
 def encode(text, key):
-    """encoding text"""
+    """Encoding text"""
     ciphered_text = ""
     for char in text:
         if char.isalpha():
@@ -36,7 +36,7 @@ def encode(text, key):
 
 
 def decode(text, key):
-    """decoding ciphered text"""
+    """Decoding ciphered text"""
     ciphered_text = ""
     for char in text:
         if char.isalpha():
@@ -49,7 +49,7 @@ def decode(text, key):
 
 
 def caesar(text, key, operation):
-    """caesar cipher (both)"""
+    """Decode/encode Caesar cipher (both)"""
     # ustalenie operacji
     if operation.lower() == 'encode':
         pass
