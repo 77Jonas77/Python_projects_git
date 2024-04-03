@@ -8,6 +8,7 @@ import scoreboard
 snake_segments = []
 speed = 0.1
 
+
 def default_settings():
     # screen.setup(width=600, height=600)
     screen.bgcolor("black")
