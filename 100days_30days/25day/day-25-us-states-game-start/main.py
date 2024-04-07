@@ -22,22 +22,24 @@ while game_on:
         "Give another state name")
     if answer_state == "exit":
         missing_states = []
-        for state in states_list:
-            if state not in guessed_states:
-                missing_states.append(state)
+        # for state in states_list:
+        #     if state not in guessed_states:
+        #         missing_states.append(state)
+        missing_states = [state for state in states_list if
+                          state not in guessed_states]
         not_answered_states = pandas.DataFrame(missing_states)
         not_answered_states.to_csv("missing_states.csv")
-        break
+    break
 
-    if answer_state.title() in states_list['state'].values():
-        x = int(data[data.state == answer_state.title()].x)
-        y = int(data[data.state == answer_state.title()].y)
-        state_text = turtle.Turtle()
-        state_text.hideturtle()
-        state_text.penup()
-        state_text.goto(x, y)
-        state_text.write(f"{answer_state}")
-        correct_answers += 1
-        guessed_states.append(answer_state)
-    if correct_answers == all_states:
-        game_on = False
+if answer_state.title() in states_list['state'].values():
+    x = int(data[data.state == answer_state.title()].x)
+    y = int(data[data.state == answer_state.title()].y)
+    state_text = turtle.Turtle()
+    state_text.hideturtle()
+    state_text.penup()
+    state_text.goto(x, y)
+    state_text.write(f"{answer_state}")
+    correct_answers += 1
+    guessed_states.append(answer_state)
+if correct_answers == all_states:
+    game_on = False
