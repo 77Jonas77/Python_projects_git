@@ -1,6 +1,7 @@
 import pandas
 
 data = pandas.read_csv("nato_phonetic_alphabet.csv")
+
 words_dict = {}
 
 # for index, row in data.iterrows():
