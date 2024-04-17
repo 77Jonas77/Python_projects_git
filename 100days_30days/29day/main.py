@@ -71,7 +71,8 @@ password_entry = Entry(window, width=20)
 password_entry.grid(row=3, column=1)
 
 # buttons
-gen_password = Button(text="Generate Password", width=11,command=generate_password)
+gen_password = Button(text="Generate Password", width=11,
+                      command=generate_password)
 gen_password.grid(row=3, column=2)
 add_password = Button(text="Add Password", width=33, command=save_password)
 add_password.grid(row=4, column=1, columnspan=2)
