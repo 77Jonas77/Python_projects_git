@@ -29,10 +29,10 @@ def main() -> None:
     load_data()
     k_val = int(input("Provide k value for algorithm: "))
     algorithm = k_means.KMeans(data=tr_data, k=k_val)
-    algorithm.calculate_centroid_for_all_groups()
+    algorithm.calculate_centroid_for_all_clusters()
     algorithm.assign_clusters()
     algorithm.update_sums_of_clusters()
-    algorithm.print_group_contents()
+    algorithm.print_clusters_contents()
     # todo: finish later ...
 
 

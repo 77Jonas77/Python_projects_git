@@ -39,7 +39,7 @@ class KMeans:
                     sum_of_squares += dist
             self.sums_of_clusters[i] = sum_of_squares
 
-    def print_group_contents(self) -> None:
+    def print_clusters_contents(self) -> None:
         """Calculates entropy for clusters based on species"""
         print("=================")
         for centroid_index in range(self.k):
@@ -60,7 +60,7 @@ class KMeans:
             print('\n' * 2)
         print("=================")
 
-    def calculate_centroid_for_all_groups(self) -> None:
+    def calculate_centroid_for_all_clusters(self) -> None:
         """Calculating centroids for each group"""
         self.centroids = []
         for i in range(self.k):
