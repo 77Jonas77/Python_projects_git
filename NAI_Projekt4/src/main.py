@@ -1,31 +1,40 @@
 import pandas as pd
 import k_means
 
+# Global CONST
 TEST_DATA_PATH = "../data-files/iris_test.txt"
 TRAINING_DATA_PATH = "../data-files/iris_training.txt"
 
-tr_data = pd.DataFrame
-test_data = pd.DataFrame
+# Global VAR
+tr_data: pd.DataFrame = None
+test_data: pd.DataFrame = None
 
 
-def load_data():
+def load_data() -> None:
     """Load training and testing data"""
     global tr_data, test_data
 
     # loading data from files
-    # dropping last column
-
     tr_data = pd.read_table(TRAINING_DATA_PATH, header=None, sep=r'\s+',
                             decimal=",")
-    # tr_data = tr_data.drop(tr_data.columns[[-1]], axis=1)
-
     test_data = pd.read_table(TEST_DATA_PATH, header=None, sep=r'\s+',
                               decimal=",")
+
+    # dropping last column
+    # tr_data = tr_data.drop(tr_data.columns[[-1]], axis=1)
     # test_data = test_data.drop(test_data.columns[[-1]], axis=1)
 
 
-if __name__ == '__main__':
+def main() -> None:
     load_data()
     k_val = int(input("Provide k value for algorithm: "))
-    k_means.KMeans(data=tr_data, k=k_val)
+    algorithm = k_means.KMeans(data=tr_data, k=k_val)
+    algorithm.calculate_centroid_for_all_groups()
+    algorithm.assign_clusters()
+    algorithm.update_sums_of_clusters()
+    algorithm.print_group_contents()
     # todo: finish later ...
+
+
+if __name__ == '__main__':
+    main()
