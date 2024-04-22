@@ -36,7 +36,7 @@ class KMeans:
                 if vector[-1] == i:
                     dist = np.linalg.norm(np.array(vector[:-2])
                                           - np.array(centroid))
-                    sum_of_squares += dist
+                    sum_of_squares += dist ** 2
             self.sums_of_clusters[i] = sum_of_squares
 
     def print_clusters_contents(self) -> None:
