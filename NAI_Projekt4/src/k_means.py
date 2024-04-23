@@ -1,7 +1,5 @@
-import math
-import random
 from collections import Counter
-
+from copy import deepcopy
 import numpy as np
 import pandas as pd
 from random import choice
@@ -18,87 +16,87 @@ class KMeans:
         self.data = data
         self.vectors: list = []
         self.centroids: list = []
+        self.clusters = []
         self.initialize_vectors()
         self.initialize_centroids()
-        self.assign_clusters_randomly()
-        self.sums_of_clusters: list[float] = None
 
-    def __str__(self) -> None:
-        for i in range(len(self.centroids)):
-            print(f"Centroid: {i}: S= {self.sums_of_clusters[i]}")
+    @staticmethod
+    def squared_distance(data_point, centroids) -> float:
+        return np.linalg.norm(np.array(centroids) - np.array(data_point))
 
-    def update_sums_of_clusters(self) -> None:
-        """Updating the sum of squares of distances from centroids"""
-        self.sums_of_clusters = [0] * len(self.centroids)
-        for i, centroid in enumerate(self.centroids):
-            sum_of_squares = 0
-            for vector in self.vectors:
-                if vector[-1] == i:
-                    dist = np.linalg.norm(np.array(vector[:-2])
-                                          - np.array(centroid))
-                    sum_of_squares += dist ** 2
-            self.sums_of_clusters[i] = sum_of_squares
-
-    def print_clusters_contents(self) -> None:
-        """Calculates entropy for clusters based on species"""
-        print("=================")
-        for centroid_index in range(self.k):
-            cluster_species = [vector[-2] for vector in self.vectors if
-                               vector[-1] == centroid_index]
-            species_counts = Counter(cluster_species)
-            total_count = sum(species_counts.values())
-            print(f"Centroid: {centroid_index} ==== Species: {total_count}")
-            print(f"Specie: 1gr\t\t\t 2gr\t\t\t\t\t 3gr \t\t\t\t\t")
-            for specie, count in species_counts.items():
-                print(f"{specie}: {count}", end='\t')
-
-            entropy = 0
-            for count in species_counts.values():
-                p = count / total_count
-                entropy -= p * math.log2(p)
-            print(f"Entropy: {entropy}")
-            print('\n' * 2)
-        print("=================")
-
-    def calculate_centroid_for_all_clusters(self) -> None:
-        """Calculating centroids for each group"""
-        self.centroids = []
-        for i in range(self.k):
-            # retrieving all data for specified group
-            cluster_points = np.array(
-                [vector[:-2] for vector in self.vectors if vector[-1] == i])
-            if len(cluster_points) > 0:
-                # avg for every column (x1,x2,x3)
-                centroid = np.mean(cluster_points, axis=0)
-                self.centroids.append(centroid)
-            else:
-                self.centroids.append(np.array(choice(self.vectors)[:-2]))
-
-    def assign_clusters_randomly(self) -> None:
-        """Assigning random clusters to vectors"""
-        for vector in self.vectors:
-            vector.append(random.randint(0, self.k - 1))
-
-    def assign_clusters(self) -> None:
+    def assign_clusters(self) -> int:
         """Assigning clusters to data points"""
+        c = 0
         for vector in self.vectors:
             min_dist = float('inf')
             closest_centroid = None
             for indx, centroid in enumerate(self.centroids):
                 # Euclidean distance
-                dist = np.linalg.norm(
-                    np.array(vector[:-2]) - np.array(centroid))
+                if len(centroid) > 4:
+                    centroid = centroid[:-2]
+                dist = self.squared_distance(vector[:-2], centroid)
                 if dist < min_dist:
                     min_dist = dist
                     closest_centroid = indx
-            vector[-1] = closest_centroid
+            if closest_centroid != vector[-1] and vector[-1] != -1:
+                self.clusters[vector[-1]].remove(vector)
+                vector[-1] = closest_centroid
+                self.clusters[closest_centroid].append(vector)
+                c += 1
+            elif vector[-1] == -1:
+                vector[-1] = closest_centroid
+                self.clusters[closest_centroid].append(vector)
+                c += 1
+        return c
 
     def initialize_vectors(self) -> None:
         """Initialization of vectors"""
         for index, row in self.data.iterrows():
             self.vectors.append(row.tolist())
 
+        for vec in self.vectors:
+            vec.append(-1)
+
     def initialize_centroids(self) -> None:
         """Initialization of centroids"""
-        for _ in range(self.k):
-            self.centroids.append(choice(self.vectors))
+        available_vectors = self.vectors[:]
+        for i in range(self.k):
+            vector = choice(available_vectors)
+            self.centroids.append(deepcopy(vector))
+
+            available_vectors.remove(vector)
+            self.clusters.append([])
+
+    def update_centroids(self):
+        for i in range(self.k):
+            group = self.clusters[i]
+
+            if not group:
+                continue
+
+            new_centroid_coordinates = [0.0] * len(self.vectors[0][:-2])
+
+            for observation in group:
+                for j, coordinate in enumerate(observation[:-2]):
+                    new_centroid_coordinates[j] += coordinate
+
+            for j in range(len(self.vectors[0][:-2])):
+                new_centroid_coordinates[j] /= len(group)
+
+            self.centroids[i] = new_centroid_coordinates
+
+    def print_clusters(self) -> None:
+        """Print contents of clusters"""
+        for i, cluster in enumerate(self.clusters):
+            print(f"Cluster {i}:")
+            decision_counts = Counter(vector[-2] for vector in cluster)
+            for decision, count in decision_counts.items():
+                print(f"Decision: {decision}, Count: {count}")
+            print()
+
+    def run(self) -> None:
+        counter = None
+        while counter is None or counter != 0:
+            counter = self.assign_clusters()
+            self.update_centroids()
+        self.print_clusters()
