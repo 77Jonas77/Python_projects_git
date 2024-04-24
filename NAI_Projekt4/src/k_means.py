@@ -1,3 +1,4 @@
+import math
 from collections import Counter
 from copy import deepcopy
 import numpy as np
@@ -87,16 +88,45 @@ class KMeans:
 
     def print_clusters(self) -> None:
         """Print contents of clusters"""
+        sum_distance = 0.0
         for i, cluster in enumerate(self.clusters):
             print(f"Cluster {i}:")
             decision_counts = Counter(vector[-2] for vector in cluster)
             for decision, count in decision_counts.items():
                 print(f"Decision: {decision}, Count: {count}")
+
+            entropy = self.calculate_entropy_for_group(cluster)
+            print(f"Entropy of cluster: {entropy}")
+
+            centroid = self.centroids[i]
+            distance = sum(
+                self.squared_distance(vector[:-2], centroid)
+                for vector in cluster)
+            sum_distance += distance
+            print(f"Sum of squared distances from centroid: {distance}")
             print()
+
+        print("Total sum of squared distances from centroids:", sum_distance)
+        print()
+
+    def calculate_entropy_for_group(self, group):
+        different_observations_counter = Counter()
+
+        for observation in group:
+            correct_output = observation[-2]
+            different_observations_counter[correct_output] += 1
+
+        entropy = 0.0
+        total_size = len(group)
+        for count in different_observations_counter.values():
+            probability = count / total_size
+            entropy += (probability * (math.log(probability) / math.log(2)))
+
+        return entropy if entropy == 0.0 else entropy * (-1)
 
     def run(self) -> None:
         counter = None
         while counter is None or counter != 0:
             counter = self.assign_clusters()
             self.update_centroids()
-        self.print_clusters()
+            self.print_clusters()
