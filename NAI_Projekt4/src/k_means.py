@@ -92,8 +92,8 @@ class KMeans:
         for i, cluster in enumerate(self.clusters):
             print(f"Cluster {i}:")
             decision_counts = Counter(vector[-2] for vector in cluster)
-            for decision, count in decision_counts.items():
-                print(f"Decision: {decision}, Count: {count}")
+            # for decision, count in decision_counts.items():
+            # print(f"Decision: {decision}, Count: {count}")
 
             entropy = self.calculate_entropy_for_group(cluster)
             print(f"Entropy of cluster: {entropy}")
@@ -103,8 +103,8 @@ class KMeans:
                 self.squared_distance(vector[:-2], centroid)
                 for vector in cluster)
             sum_distance += distance
-            print(f"Sum of squared distances from centroid: {distance}")
-            print()
+            # print(f"Sum of squared distances from centroid: {distance}")
+            # print()
 
         print("Total sum of squared distances from centroids:", sum_distance)
         print()

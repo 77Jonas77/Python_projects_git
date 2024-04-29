@@ -15,6 +15,7 @@ def load_data() -> None:
     global tr_data, test_data
 
     # loading data from files
+
     tr_data = pd.read_table(TRAINING_DATA_PATH, header=None, sep=r'\s+',
                             decimal=",")
     test_data = pd.read_table(TEST_DATA_PATH, header=None, sep=r'\s+',
