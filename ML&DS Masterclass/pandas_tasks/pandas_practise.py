@@ -173,5 +173,5 @@ piv1 = pd.pivot(licences, index='Company', columns='Product', values='Licenses')
 print(pd.pivot_table(licences, index='Company', aggfunc='sum',
                      values=['Licenses', 'Sale Price'],
                      fill_value=0, margins=True))  # aggfunc = [np.mean, np.sum]
-# total 
+# total
 print(dff.groupby('Company').sum())
