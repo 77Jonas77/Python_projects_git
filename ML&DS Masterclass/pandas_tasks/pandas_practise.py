@@ -139,10 +139,39 @@ print(tech_fin.str.split(',', expand=True))
 # time methods for date and time data
 from datetime import datetime
 
-pd.to_datetime(...)  # dayfirst=True -> EU format
+# pd.to_datetime(...)  # dayfirst=True -> EU format
 # use datetime docs to apply proper format of date
-pd.to_datetime(..., format='%d--%b--%Y')
+# pd.to_datetime(..., format='%d--%b--%Y')
 
-sales = pd.read_csv('../data/sales.csv', parse_dates=[0])
-sales = sales.set_index('DATE')
-sales.resample(rule='A').mean() # rule -> panda docs
+# sales = pd.read_csv('../data/sales.csv', parse_dates=[0])
+# sales = sales.set_index('DATE')
+# sales.resample(rule='A').mean()  # rule -> panda docs
+
+# IO tools
+# read_csv('filename.csv', header=null, index_col=0)
+# df.to_csv('filename2.csv', index=False)
+
+# tables = pd.read_html(url) /or as file if FWall problem
+
+# xlrd / openpyxl -> working on Excel files
+# pd.read_excel('...', sheet_name='name_of_sheet')
+# pd.read_excel('...', sheet_name=None) -> returns dict of sheets
+# pd.ExcelFile('filename.xlsx')
+
+# SQL DB
+# - driver lib needed to your db
+#  sqlalchemy - conn with db
+
+# Pivot tables
+dff = pd.read_csv('../data/Sales_Funnel_CRM.csv')
+print(dff)
+
+licences = dff[['Company', 'Product', 'Licenses']]
+print(licences)
+piv1 = pd.pivot(licences, index='Company', columns='Product', values='Licenses')
+
+print(pd.pivot_table(licences, index='Company', aggfunc='sum',
+                     values=['Licenses', 'Sale Price'],
+                     fill_value=0, margins=True))  # aggfunc = [np.mean, np.sum]
+# total 
+print(dff.groupby('Company').sum())
